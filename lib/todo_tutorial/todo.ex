@@ -20,7 +20,7 @@ defmodule TodoTutorial.Todo do
   def list_tasks do
     Task
     |> preload(:user)
-    |> Repo.all
+    |> Repo.all()
   end
 
   def urgent_tasks do
@@ -28,7 +28,7 @@ defmodule TodoTutorial.Todo do
     |> preload(:user)
     |> where([t], not t.is_finished and t.deadline > from_now(0, "second"))
     |> order_by([t], t.deadline)
-    |> Repo.all
+    |> Repo.all()
   end
 
   def expired_tasks do
@@ -36,9 +36,8 @@ defmodule TodoTutorial.Todo do
     |> preload(:user)
     |> where([t], not t.is_finished and t.deadline < from_now(0, "second"))
     |> order_by([t], t.deadline)
-    |> Repo.all
+    |> Repo.all()
   end
-
 
   @doc """
   Gets a single task.
@@ -54,11 +53,11 @@ defmodule TodoTutorial.Todo do
       ** (Ecto.NoResultsError)
 
   """
-  def get_task!(id), do:
-    Task 
-    |> preload(:user)
-    |> Repo.get!(id)
-    
+  def get_task!(id),
+    do:
+      Task
+      |> preload(:user)
+      |> Repo.get!(id)
 
   @doc """
   Creates a task.

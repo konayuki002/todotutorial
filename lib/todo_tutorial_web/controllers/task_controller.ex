@@ -1,6 +1,6 @@
 defmodule TodoTutorialWeb.TaskController do
   use TodoTutorialWeb, :controller
-  
+
   alias TodoTutorial.Todo
   alias TodoTutorial.Todo.Task
   alias TodoTutorial.Repo

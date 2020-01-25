@@ -8,6 +8,5 @@ defmodule TodoTutorial.Repo.Migrations.CreateTasks do
       add :finished_at, :naive_datetime
       timestamps()
     end
-
   end
 end
