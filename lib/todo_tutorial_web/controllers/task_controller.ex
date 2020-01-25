@@ -12,6 +12,11 @@ defmodule TodoTutorialWeb.TaskController do
     render(conn, "index.html", tasks: tasks)
   end
 
+  def urgent(conn, _params) do
+    tasks = Todo.urgent_tasks()
+    render(conn, "urgent.html", tasks: tasks)
+  end
+
   def new(conn, _params) do
     changeset = Todo.change_task(%Task{})
     users = Repo.all(TodoTutorial.Accounts.User)
