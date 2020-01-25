@@ -17,7 +17,12 @@
     <%= @task.finished_at %>
   </li>
 
-   <li>
+  <li>
+    <strong>Deadline:</strong>
+    <%= @task.deadline %>
+  </li>
+
+  <li>
     <strong>Owned by:</strong>
     <%= @task.user.name %>
   </li>

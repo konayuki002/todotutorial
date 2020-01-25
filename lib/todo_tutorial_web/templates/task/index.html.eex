@@ -6,6 +6,7 @@
       <th>Name</th>
       <th>Is finished</th>
       <th>Finished at</th>
+      <th>Deadline</th>
       <th>Owned by</th>
       <th></th>
     </tr>
@@ -16,6 +17,7 @@
       <td><%= task.name %></td>
       <td><%= task.is_finished %></td>
       <td><%= task.finished_at %></td>
+      <td><%= task.deadline%></td>
       <td><%= task.user.name %></td>
       <td>
         <span><%= link "Show", to: Routes.task_path(@conn, :show, task) %></span>
