@@ -23,7 +23,7 @@ defmodule TodoTutorial.Todo do
     |> Repo.all()
   end
 
-  def urgent_tasks() do
+  def fetch_urgent_tasks() do
     Task
     |> preload(:user)
     |> where([t], not t.is_finished and t.deadline > from_now(0, "second"))
@@ -31,7 +31,7 @@ defmodule TodoTutorial.Todo do
     |> Repo.all()
   end
 
-  def expired_tasks() do
+  def fetch_expired_tasks() do
     Task
     |> preload(:user)
     |> where([t], not t.is_finished and t.deadline < from_now(0, "second"))

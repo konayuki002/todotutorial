@@ -12,7 +12,7 @@
       <section class="container">
         <nav role="navigation">
           <ul>
-            <li><a href="<%= Routes.task_path(@conn, :urgent) %>">Urgent</a></li>
+            <li><a href="<%= Routes.task_path(@conn, :fetch_urgent) %>">Urgent</a></li>
             <li><a href="<%= Routes.task_path(@conn, :index) %>">Task</a></li>
             <li><a href="<%= Routes.user_path(@conn, :index) %>">User</a></li>
           </ul>
