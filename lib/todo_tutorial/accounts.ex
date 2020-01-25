@@ -34,7 +34,7 @@ defmodule TodoTutorial.Accounts do
     User
       |> join(:left, [u], t in subquery(remaining_query), on: u.id == t.user_id)
       |> join(:left, [u], t2 in subquery(finished_query), on: u.id == t2.user_id)
-      |> select([u, t, t2], %User{id: u.id, name: u.name, remaining: fragment("(CASE WHEN ? is NULL THEN 0 ELSE ? END)", t.remaining, t.remaining), finished: fragment("(CASE WHEN ? is NULL THEN 0 ELSE ? END)", t2.finished, t2.finished)})
+      |> select([u, t, t2], %User{id: u.id, name: u.name, remaining: fragment("CASE WHEN ? is NULL THEN 0 ELSE ? END", t.remaining, t.remaining), finished: fragment("CASE WHEN ? is NULL THEN 0 ELSE ? END", t2.finished, t2.finished)})
       |> Repo.all
   end
 
@@ -68,7 +68,7 @@ defmodule TodoTutorial.Accounts do
     User
       |> join(:left, [u], t in subquery(remaining_query), on: u.id == t.user_id)
       |> join(:left, [u], t2 in subquery(finished_query), on: u.id == t2.user_id)
-      |> select([u, t, t2], %User{id: u.id, name: u.name, remaining: fragment("(CASE WHEN ? is NULL THEN 0 ELSE ? END)", t.remaining, t.remaining), finished: fragment("(CASE WHEN ? is NULL THEN 0 ELSE ? END)", t2.finished, t2.finished)})
+      |> select([u, t, t2], %User{id: u.id, name: u.name, remaining: fragment("CASE WHEN ? is NULL THEN 0 ELSE ? END", t.remaining, t.remaining), finished: fragment("CASE WHEN ? is NULL THEN 0 ELSE ? END", t2.finished, t2.finished)})
       |> Repo.get!(id)
   end
   @doc """
