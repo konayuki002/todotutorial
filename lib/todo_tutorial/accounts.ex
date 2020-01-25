@@ -22,19 +22,20 @@ defmodule TodoTutorial.Accounts do
     remaining_query =
       Task
       |> where([t], not t.is_finished)
-    |> group_by([t], t.user_id)
-    |> select([t], %{user_id: t.user_id, remaining: count(t.id)})
+      |> group_by([t], t.user_id)
+      |> select([t], %{user_id: t.user_id, remaining: count(t.id)})
 
-    finished_query = Task
-    |> where([t], t.is_finished)
-    |> group_by([t], t.user_id)
-    |> select([t], %{user_id: t.user_id, finished: count(t.id)})
+    finished_query = 
+      Task
+      |> where([t], t.is_finished)
+      |> group_by([t], t.user_id)
+      |> select([t], %{user_id: t.user_id, finished: count(t.id)})
 
     User
-    |> join(:left, [u], t in subquery(remaining_query), on: u.id == t.user_id)
-    |> join(:left, [u], t2 in subquery(finished_query), on: u.id == t2.user_id)
-    |> select([u, t, t2], %User{id: u.id, name: u.name, remaining: fragment("(CASE WHEN ? is NULL THEN 0 ELSE ? END)", t.remaining, t.remaining), finished: fragment("(CASE WHEN ? is NULL THEN 0 ELSE ? END)", t2.finished, t2.finished)})
-    |> Repo.all
+      |> join(:left, [u], t in subquery(remaining_query), on: u.id == t.user_id)
+      |> join(:left, [u], t2 in subquery(finished_query), on: u.id == t2.user_id)
+      |> select([u, t, t2], %User{id: u.id, name: u.name, remaining: fragment("(CASE WHEN ? is NULL THEN 0 ELSE ? END)", t.remaining, t.remaining), finished: fragment("(CASE WHEN ? is NULL THEN 0 ELSE ? END)", t2.finished, t2.finished)})
+      |> Repo.all
   end
 
   @doc """
