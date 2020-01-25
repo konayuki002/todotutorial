@@ -10,7 +10,13 @@
   <body>
     <header>
       <section class="container">
-        <a href="http://118.27.37.134:4000/">Your Tasks</a>
+        <nav role="navigation">
+          <ul>
+            <li><a href="http://118.27.37.134:4000/tasks">Task</a>
+            <li><a href="http://118.27.37.134:4000/users">User</a>
+          <ul>
+        </nav>
+        <a href="http://118.27.37.134:4000/">Manage Your Tasks</a>
       </section>
     </header>
     <main role="main" class="container">
