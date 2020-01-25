@@ -5,6 +5,7 @@ defmodule TodoTutorial.Todo.Task do
   schema "tasks" do
     field :finished_at, :naive_datetime
     field :is_finished, :boolean, default: false
+    field :deadline, :naive_datetime
     field :name, :string
     belongs_to :user, TodoTutorial.Accounts.User
     timestamps()
