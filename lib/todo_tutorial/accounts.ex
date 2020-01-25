@@ -25,7 +25,7 @@ defmodule TodoTutorial.Accounts do
       |> group_by([t], t.user_id)
       |> select([t], %{user_id: t.user_id, remaining: count(t.id)})
 
-    finished_query = 
+    finished_query =
       Task
       |> where([t], t.is_finished)
       |> group_by([t], t.user_id)
@@ -59,7 +59,7 @@ defmodule TodoTutorial.Accounts do
       |> group_by([t], t.user_id)
       |> select([t], %{user_id: t.user_id, remaining: count(t.id)})
 
-    finished_query = 
+    finished_query =
       Task
       |> where([t], t.is_finished)
       |> group_by([t], t.user_id)
