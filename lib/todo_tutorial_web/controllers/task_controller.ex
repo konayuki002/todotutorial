@@ -13,8 +13,9 @@ defmodule TodoTutorialWeb.TaskController do
   end
 
   def urgent(conn, _params) do
-    tasks = Todo.urgent_tasks()
-    render(conn, "urgent.html", tasks: tasks)
+    urgent_tasks = Todo.urgent_tasks()
+    expired_tasks = Todo.expired_tasks()
+    render(conn, "urgent.html", urgent_tasks: urgent_tasks, expired_tasks: expired_tasks)
   end
 
   def new(conn, _params) do

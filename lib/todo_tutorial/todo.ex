@@ -31,6 +31,15 @@ defmodule TodoTutorial.Todo do
     |> Repo.all
   end
 
+  def expired_tasks do
+    Task
+    |> preload(:user)
+    |> where([t], not t.is_finished and t.deadline < from_now(0, "second"))
+    |> order_by([t], t.deadline)
+    |> Repo.all
+  end
+
+
   @doc """
   Gets a single task.
 
