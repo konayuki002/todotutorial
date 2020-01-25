@@ -12,9 +12,9 @@
       <section class="container">
         <nav role="navigation">
           <ul>
-            <li><a href="http://118.27.37.134:4000/tasks">Task</a>
-            <li><a href="http://118.27.37.134:4000/users">User</a>
-          <ul>
+            <li><a href="http://118.27.37.134:4000/tasks">Task</a></li>
+            <li><a href="http://118.27.37.134:4000/users">User</a></li>
+          </ul>
         </nav>
         <a href="http://118.27.37.134:4000/">Manage Your Tasks</a>
       </section>
