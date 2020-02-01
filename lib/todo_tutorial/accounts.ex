@@ -19,7 +19,7 @@ defmodule TodoTutorial.Accounts do
 
   """
   def list_users do
-    do_list_user()
+    make_user_task_count_query()
     |> Repo.all()
   end
 
@@ -38,11 +38,11 @@ defmodule TodoTutorial.Accounts do
 
   """
   def get_user!(id) do
-    do_list_user()
+    make_user_task_count_query()
     |> Repo.get!(id)
   end
 
-  defp do_list_user do
+  defp make_user_task_count_query do
     remaining_query =
       Task
       |> where([t], not t.is_finished)
