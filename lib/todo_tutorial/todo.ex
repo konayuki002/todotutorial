@@ -23,20 +23,23 @@ defmodule TodoTutorial.Todo do
     |> Repo.all()
   end
 
-  def fetch_urgent_tasks do
-    Task
+  defp fetch_tasks(task_query) do
+    task_query
     |> preload(:user)
-    |> where([t], not t.is_finished and t.deadline > from_now(0, "second"))
     |> order_by([t], t.deadline)
     |> Repo.all()
   end
 
+  def fetch_urgent_tasks do
+    Task
+    |> where([t], not t.is_finished and t.deadline > from_now(0, "second"))
+    |> fetch_tasks()
+  end
+
   def fetch_expired_tasks do
     Task
-    |> preload(:user)
     |> where([t], not t.is_finished and t.deadline < from_now(0, "second"))
-    |> order_by([t], t.deadline)
-    |> Repo.all()
+    |> fetch_tasks()
   end
 
   @doc """
