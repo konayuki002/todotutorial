@@ -40,12 +40,12 @@ defmodule TodoTutorial.TodoTest do
     end
 
     test "fetch_urgent_tasks/0 returns unfinished and still effective tasks" do
-      assert {:ok, %Task{} = task} = Todo.create_task(task, @urgent_attrs)
+      {:ok, task} = Todo.create_task(task, @urgent_attrs)
       assert Todo.fetch_urgent_tasks() == [task]
     end
 
     test "fetch_expired_tasks/0 returns unfinished and expired tasks" do
-      assert {:ok, %Task{} = task} = Todo.create_task(task, @expired_attrs)
+      {:ok, task} = Todo.create_task(task, @expired_attrs)
       assert Todo.fetch_expired_tasks() == [task]
     end
 
