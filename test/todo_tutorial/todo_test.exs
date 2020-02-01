@@ -2,6 +2,7 @@ defmodule TodoTutorial.TodoTest do
   use TodoTutorial.DataCase
 
   alias TodoTutorial.Todo
+  doctest Todo
 
   describe "tasks" do
     alias TodoTutorial.Todo.Task
