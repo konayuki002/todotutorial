@@ -30,12 +30,32 @@ defmodule TodoTutorial.Todo do
     |> Repo.all()
   end
 
+  @doc """
+  Returns the list of tasks unfinished, not expired and ordered from near to distant.
+
+  ## Examples
+
+      iex> fetch_urgent_tasks()
+      [%Task{}, ...]
+
+  """
+  @spec fetch_urgent_tasks() :: %{}
   def fetch_urgent_tasks do
     Task
     |> where([t], not t.is_finished and t.deadline > from_now(0, "second"))
     |> fetch_tasks()
   end
 
+  @doc """
+  Returns the list of tasks unfinished, expired and ordered from near to distant.
+
+  ## Examples
+
+      iex> fetch_expired_tasks()
+      [%Task{}, ...]
+
+  """
+  @spec fetch_expired_tasks() :: %{}
   def fetch_expired_tasks do
     Task
     |> where([t], not t.is_finished and t.deadline < from_now(0, "second"))
