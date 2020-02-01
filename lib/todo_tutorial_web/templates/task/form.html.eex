@@ -17,6 +17,10 @@
   <%= select f, :user_id, Enum.map(@users, fn(x) -> {x.name, x.id} end), seleceted: :user_id%>
   <%= error_tag f, :user_id%>
 
+  <%= label f, :deadline %>
+  <%= datetime_select f, :deadline%>
+  <%= error_tag f, :deadline %>
+
   <div>
     <%= submit "Save" %>
   </div>

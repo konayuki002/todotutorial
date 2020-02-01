@@ -19,23 +19,8 @@ defmodule TodoTutorial.Accounts do
 
   """
   def list_users do
-    remaining_query =
-      Task
-      |> where([t], not t.is_finished)
-      |> group_by([t], t.user_id)
-      |> select([t], %{user_id: t.user_id, remaining: count(t.id)})
-
-    finished_query =
-      Task
-      |> where([t], t.is_finished)
-      |> group_by([t], t.user_id)
-      |> select([t], %{user_id: t.user_id, finished: count(t.id)})
-
-    User
-      |> join(:left, [u], t in subquery(remaining_query), on: u.id == t.user_id)
-      |> join(:left, [u], t2 in subquery(finished_query), on: u.id == t2.user_id)
-      |> select([u, t, t2], %User{id: u.id, name: u.name, remaining: fragment("CASE WHEN ? is NULL THEN 0 ELSE ? END", t.remaining, t.remaining), finished: fragment("CASE WHEN ? is NULL THEN 0 ELSE ? END", t2.finished, t2.finished)})
-      |> Repo.all
+    make_user_task_count_query()
+    |> Repo.all()
   end
 
   @doc """
@@ -53,24 +38,38 @@ defmodule TodoTutorial.Accounts do
 
   """
   def get_user!(id) do
+    make_user_task_count_query()
+    |> Repo.get!(id)
+  end
+
+  defp make_user_task_count_query do
     remaining_query =
       Task
       |> where([t], not t.is_finished)
-      |> group_by([t], t.user_id)
-      |> select([t], %{user_id: t.user_id, remaining: count(t.id)})
+      |> count_user_tasks
 
     finished_query =
       Task
       |> where([t], t.is_finished)
-      |> group_by([t], t.user_id)
-      |> select([t], %{user_id: t.user_id, finished: count(t.id)})
+      |> count_user_tasks
 
     User
-      |> join(:left, [u], t in subquery(remaining_query), on: u.id == t.user_id)
-      |> join(:left, [u], t2 in subquery(finished_query), on: u.id == t2.user_id)
-      |> select([u, t, t2], %User{id: u.id, name: u.name, remaining: fragment("CASE WHEN ? is NULL THEN 0 ELSE ? END", t.remaining, t.remaining), finished: fragment("CASE WHEN ? is NULL THEN 0 ELSE ? END", t2.finished, t2.finished)})
-      |> Repo.get!(id)
+    |> join(:left, [u], t in subquery(remaining_query), on: u.id == t.user_id)
+    |> join(:left, [u], t2 in subquery(finished_query), on: u.id == t2.user_id)
+    |> select([u, t, t2], %User{
+      id: u.id,
+      name: u.name,
+      remaining: fragment("CASE WHEN ? is NULL THEN 0 ELSE ? END", t.count, t.count),
+      finished: fragment("CASE WHEN ? is NULL THEN 0 ELSE ? END", t2.count, t2.count)
+    })
   end
+
+  defp count_user_tasks(query) do
+    query
+    |> group_by([t], t.user_id)
+    |> select([t], %{user_id: t.user_id, count: count(t.id)})
+  end
+
   @doc """
   Creates a user.
 

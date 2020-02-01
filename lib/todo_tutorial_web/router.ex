@@ -17,8 +17,9 @@ defmodule TodoTutorialWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-      resources "/tasks", TaskController
-      resources "/users", UserController
+    resources "/tasks", TaskController
+    resources "/users", UserController
+    get "/urgent", TaskController, :fetch_urgent
   end
 
   # Other scopes may use custom stacks.

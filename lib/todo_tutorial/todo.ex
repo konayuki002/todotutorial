@@ -20,7 +20,46 @@ defmodule TodoTutorial.Todo do
   def list_tasks do
     Task
     |> preload(:user)
-    |> Repo.all
+    |> Repo.all()
+  end
+
+  defp do_fetch_tasks(task_query) do
+    task_query
+    |> preload(:user)
+    |> order_by([t], t.deadline)
+    |> Repo.all()
+  end
+
+  @doc """
+  Returns the list of tasks unfinished, not expired and ordered from near to distant.
+
+  ## Examples
+
+      iex> fetch_urgent_tasks()
+      [%Task{}, ...]
+
+  """
+  @spec fetch_urgent_tasks() :: %{}
+  def fetch_urgent_tasks do
+    Task
+    |> where([t], not t.is_finished and t.deadline > from_now(0, "second"))
+    |> do_fetch_tasks()
+  end
+
+  @doc """
+  Returns the list of tasks unfinished, expired and ordered from near to distant.
+
+  ## Examples
+
+      iex> fetch_expired_tasks()
+      [%Task{}, ...]
+
+  """
+  @spec fetch_expired_tasks() :: %{}
+  def fetch_expired_tasks do
+    Task
+    |> where([t], not t.is_finished and t.deadline < from_now(0, "second"))
+    |> do_fetch_tasks()
   end
 
   @doc """
@@ -37,11 +76,11 @@ defmodule TodoTutorial.Todo do
       ** (Ecto.NoResultsError)
 
   """
-  def get_task!(id), do:
-    Task 
-    |> preload(:user)
-    |> Repo.get!(id)
-    
+  def get_task!(id),
+    do:
+      Task
+      |> preload(:user)
+      |> Repo.get!(id)
 
   @doc """
   Creates a task.

@@ -1,30 +1,5 @@
 <h1>Listing Tasks</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Is finished</th>
-      <th>Finished at</th>
-      <th>Owned by</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for task <- @tasks do %>
-    <tr>
-      <td><%= task.name %></td>
-      <td><%= task.is_finished %></td>
-      <td><%= task.finished_at %></td>
-      <td><%= task.user.name %></td>
-      <td>
-        <span><%= link "Show", to: Routes.task_path(@conn, :show, task) %></span>
-        <span><%= link "Edit", to: Routes.task_path(@conn, :edit, task) %></span>
-        <span><%= link "Delete", to: Routes.task_path(@conn, :delete, task), method: :delete, data: [confirm: "Are you sure?"] %></span>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
+<%= render "list.html", tasks: @tasks, conn: @conn%>
 
 <span><%= link "New Task", to: Routes.task_path(@conn, :new) %></span>

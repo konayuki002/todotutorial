@@ -2,12 +2,27 @@ defmodule TodoTutorial.TodoTest do
   use TodoTutorial.DataCase
 
   alias TodoTutorial.Todo
+  doctest Todo
 
   describe "tasks" do
     alias TodoTutorial.Todo.Task
 
     @valid_attrs %{finished_at: ~N[2010-04-17 14:00:00], is_finished: true, name: "some name"}
-    @update_attrs %{finished_at: ~N[2011-05-18 15:01:01], is_finished: false, name: "some updated name"}
+    @update_attrs %{
+      finished_at: ~N[2011-05-18 15:01:01],
+      is_finished: false,
+      name: "some updated name"
+    }
+    @urgent_attrs %{
+      finished_at: ~N[2111-05-18 15:01:01],
+      is_finished: false,
+      name: "some urgent name"
+    }
+    @expired_attrs %{
+      finished_at: ~N[2011-05-18 15:01:01],
+      is_finished: false,
+      name: "some expired name"
+    }
     @invalid_attrs %{finished_at: nil, is_finished: nil, name: nil}
 
     def task_fixture(attrs \\ %{}) do
@@ -22,6 +37,16 @@ defmodule TodoTutorial.TodoTest do
     test "list_tasks/0 returns all tasks" do
       task = task_fixture()
       assert Todo.list_tasks() == [task]
+    end
+
+    test "fetch_urgent_tasks/0 returns unfinished and still effective tasks" do
+      {:ok, task} = Todo.create_task(task, @urgent_attrs)
+      assert Todo.fetch_urgent_tasks() == [task]
+    end
+
+    test "fetch_expired_tasks/0 returns unfinished and expired tasks" do
+      {:ok, task} = Todo.create_task(task, @expired_attrs)
+      assert Todo.fetch_expired_tasks() == [task]
     end
 
     test "get_task!/1 returns the task with given id" do

@@ -1,0 +1,9 @@
+<h1>Urgent Tasks</h1>
+
+<%= render "list.html", tasks: @urgent_tasks, conn: @conn%>
+
+<h1> Expired Tasks </h1>
+
+<%= render "list.html", tasks: @expired_tasks, conn: @conn%>
+
+<span><%= link "New Task", to: Routes.task_path(@conn, :new) %></span>

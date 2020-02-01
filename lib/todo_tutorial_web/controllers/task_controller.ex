@@ -1,6 +1,6 @@
 defmodule TodoTutorialWeb.TaskController do
   use TodoTutorialWeb, :controller
-  
+
   alias TodoTutorial.Todo
   alias TodoTutorial.Todo.Task
   alias TodoTutorial.Repo
@@ -10,6 +10,12 @@ defmodule TodoTutorialWeb.TaskController do
   def index(conn, _params) do
     tasks = Todo.list_tasks()
     render(conn, "index.html", tasks: tasks)
+  end
+
+  def fetch_urgent(conn, _params) do
+    urgent_tasks = Todo.fetch_urgent_tasks()
+    expired_tasks = Todo.fetch_expired_tasks()
+    render(conn, "urgent.html", urgent_tasks: urgent_tasks, expired_tasks: expired_tasks)
   end
 
   def new(conn, _params) do

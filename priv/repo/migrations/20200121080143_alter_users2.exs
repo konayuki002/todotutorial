@@ -4,6 +4,6 @@ defmodule TodoTutorial.Repo.Migrations.AlterUsers2 do
   def change do
     alter table("users") do
       add :unfinished, :integer, virtual: true
-    end  
+    end
   end
 end
