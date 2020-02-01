@@ -19,7 +19,7 @@ defmodule TodoTutorial.Accounts do
 
   """
   def list_users do
-    join_user_tasks
+    join_user_tasks()
     |> Repo.all()
   end
 
@@ -38,7 +38,7 @@ defmodule TodoTutorial.Accounts do
 
   """
   def get_user!(id) do
-    join_user_tasks
+    join_user_tasks()
     |> Repo.get!(id)
   end
 
