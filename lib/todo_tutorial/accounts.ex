@@ -46,12 +46,12 @@ defmodule TodoTutorial.Accounts do
     remaining_query =
       Task
       |> where([t], not t.is_finished)
-      |> count_tasks
+      |> count_user_tasks
 
     finished_query =
       Task
       |> where([t], t.is_finished)
-      |> count_tasks
+      |> count_user_tasks
 
     User
     |> join(:left, [u], t in subquery(remaining_query), on: u.id == t.user_id)
@@ -64,7 +64,7 @@ defmodule TodoTutorial.Accounts do
     })
   end
 
-  defp count_tasks(query) do
+  defp count_user_tasks(query) do
     query
     |> group_by([t], t.user_id)
     |> select([t], %{user_id: t.user_id, count: count(t.id)})
