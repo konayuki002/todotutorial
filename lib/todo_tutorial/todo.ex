@@ -48,13 +48,13 @@ defmodule TodoTutorial.Todo do
     query
   end
 
-  defp filter_query_by_user(query, %{"user_id" => user_id}) when not is_nil(user_id) do
-    query
-    |> where([t], t.user_id == ^user_id)
-  end
-
   defp filter_query_by_user(query, %{"user_id" => nil}) do
     query
+  end
+
+  defp filter_query_by_user(query, %{"user_id" => user_id}) do
+    query
+    |> where([t], t.user_id == ^user_id)
   end
 
   defp format_params(params) do
