@@ -13,7 +13,7 @@ defmodule TodoTutorial.Todo do
 
   ## Examples
 
-      iex> filter_tasks(%{is_finished: "true"})
+      iex> list_tasks(%{is_finished: "true"})
       [%Task{}, ...]
 
   """
