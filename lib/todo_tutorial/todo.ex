@@ -66,13 +66,11 @@ defmodule TodoTutorial.Todo do
   end
 
   defp format_user_id(%{"user_id" => "nil"} = params) do
-    params
-    |> Map.put("user_id", nil)
+    Map.put(params, "user_id", nil)
   end
 
   defp format_user_id(%{"user_id" => user_id} = params) when not (user_id == "nil") do
-    params
-    |> Map.update("user_id", nil, &String.to_integer(&1))
+    Map.update(params, "user_id", nil, &String.to_integer(&1))
   end
 
   defp do_fetch_tasks(task_query) do
