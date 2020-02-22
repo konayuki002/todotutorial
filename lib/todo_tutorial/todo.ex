@@ -67,7 +67,7 @@ defmodule TodoTutorial.Todo do
 
   defp format_user_id(%{"user_id" => "nil"} = params) do
     params
-    |> Map.replace("user_id", nil)
+    |> Map.put("user_id", nil)
   end
 
   defp format_user_id(%{"user_id" => user_id} = params) when not (user_id == "nil") do
