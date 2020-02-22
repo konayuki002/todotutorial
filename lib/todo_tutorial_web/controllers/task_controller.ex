@@ -7,9 +7,10 @@ defmodule TodoTutorialWeb.TaskController do
 
   import Ecto.Query
 
-  def index(conn, _params) do
-    tasks = Todo.list_tasks()
-    render(conn, "index.html", tasks: tasks)
+  def index(conn, params) do
+    tasks = Todo.list_tasks(params)
+    users = Repo.all(TodoTutorial.Accounts.User)
+    render(conn, "index.html", tasks: tasks, users: users)
   end
 
   def fetch_urgent(conn, _params) do

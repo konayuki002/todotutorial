@@ -8,6 +8,7 @@ defmodule TodoTutorial.Todo.Task do
     field :deadline, :naive_datetime
     field :name, :string
     belongs_to :user, TodoTutorial.Accounts.User
+    field :is_expired, :boolean, virtual: true
     timestamps()
   end
 
@@ -17,6 +18,12 @@ defmodule TodoTutorial.Todo.Task do
     |> cast(attrs, [:name, :is_finished, :user_id, :deadline])
     |> validate_required([:name, :is_finished, :user_id, :deadline])
     |> put_finished_at()
+  end
+
+  @doc false
+  def changeset_for_search(task, attrs) do
+    task
+    |> cast(attrs, [:is_finished, :user_id, :is_expired])
   end
 
   def put_finished_at(%Ecto.Changeset{changes: %{is_finished: true}} = changeset) do

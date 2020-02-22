@@ -9,18 +9,70 @@ defmodule TodoTutorial.Todo do
   alias TodoTutorial.Todo.Task
 
   @doc """
-  Returns the list of tasks.
+  Returns the filtered list of tasks.
 
   ## Examples
 
-      iex> list_tasks()
+      iex> filter_tasks(%{is_finished: "true"})
       [%Task{}, ...]
 
   """
-  def list_tasks do
-    Task
+  @spec list_tasks(%{}) :: %{}
+  def list_tasks(params) do
+    params = format_params(params)
+    IO.inspect(params)
+
+    from(t in Task)
+    |> filter_query_by_finished(params)
+    |> filter_query_by_expired(params)
+    |> filter_query_by_user(params)
     |> preload(:user)
     |> Repo.all()
+  end
+
+  defp filter_query_by_finished(query, %{"is_finished" => true}) do
+    query
+    |> where([t], t.is_finished)
+  end
+
+  defp filter_query_by_finished(query, %{"is_finished" => false}) do
+    query
+  end
+
+  defp filter_query_by_expired(query, %{"is_expired" => true}) do
+    query
+    |> where([t], t.deadline < from_now(0, "second"))
+  end
+
+  defp filter_query_by_expired(query, %{"is_expired" => false}) do
+    query
+  end
+
+  defp filter_query_by_user(query, %{"user_id" => user_id}) when not is_nil(user_id) do
+    query
+    |> where([t], t.user_id == ^user_id)
+  end
+
+  defp filter_query_by_user(query, %{"user_id" => nil}) do
+    query
+  end
+
+  defp format_params(params) do
+    params
+    |> Map.update("is_finished", false, &(&1 == "true"))
+    |> Map.update("is_expired", false, &(&1 == "true"))
+    |> Map.put_new("user_id", "nil")
+    |> format_user_id
+  end
+
+  defp format_user_id(%{"user_id" => "nil"} = params) do
+    params
+    |> Map.replace("user_id", nil)
+  end
+
+  defp format_user_id(%{"user_id" => user_id} = params) when not (user_id == "nil") do
+    params
+    |> Map.update("user_id", nil, &String.to_integer(&1))
   end
 
   defp do_fetch_tasks(task_query) do
