@@ -20,12 +20,6 @@ defmodule TodoTutorial.Todo.Task do
     |> put_finished_at()
   end
 
-  @doc false
-  def changeset_for_search(task, attrs) do
-    task
-    |> cast(attrs, [:is_finished, :user_id, :is_expired])
-  end
-
   def put_finished_at(%Ecto.Changeset{changes: %{is_finished: true}} = changeset) do
     now = %{NaiveDateTime.utc_now() | microsecond: {0, 0}}
     put_change(changeset, :finished_at, now)
