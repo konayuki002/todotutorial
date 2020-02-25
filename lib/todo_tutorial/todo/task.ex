@@ -8,7 +8,6 @@ defmodule TodoTutorial.Todo.Task do
     field :deadline, :naive_datetime
     field :name, :string
     belongs_to :user, TodoTutorial.Accounts.User
-    field :is_expired, :boolean, virtual: true
     timestamps()
   end
 
