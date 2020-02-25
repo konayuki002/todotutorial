@@ -20,6 +20,7 @@ defmodule TodoTutorial.Todo do
   @spec list_tasks(%{}) :: %{}
   def list_tasks(params) do
     params = format_params(params)
+
     Task
     |> filter_query_by_finished(params)
     |> filter_query_by_expired(params)

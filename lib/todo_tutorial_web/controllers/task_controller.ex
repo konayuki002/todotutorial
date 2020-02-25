@@ -9,7 +9,7 @@ defmodule TodoTutorialWeb.TaskController do
 
   def index(conn, params) do
     tasks = Todo.list_tasks(params)
-    users = TodoTutorial.Accounts.User |> order_by(asc: :name) |> Repo.all
+    users = TodoTutorial.Accounts.User |> order_by(asc: :name) |> Repo.all()
     render(conn, "index.html", tasks: tasks, users: users)
   end
 
