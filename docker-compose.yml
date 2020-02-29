@@ -4,6 +4,8 @@ services:
     build: ./dockerfiles/app
     volumes:
       - ${APP_CODE_PATH_HOST}:/app
+      - deps:/app/deps
+      - node_module:/app/assets/node_modules
     ports:
       - "${PHOENIX_PORT}:4000"
     environment:
@@ -28,4 +30,8 @@ services:
       - "${SWAGGER_UI_PORT}:8080"
 volumes: 
   postgresdata:
+    driver: "local"
+  node_module:
+    driver: "local"
+  deps:
     driver: "local"
