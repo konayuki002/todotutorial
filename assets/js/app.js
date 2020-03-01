@@ -12,11 +12,11 @@ import css from "../css/app.css"
 import "phoenix_html"
 
 import Vue from 'vue'
-import test from './components/test.vue'
+import index from './components/page/index.vue'
 
 new Vue({
     el: '#vue',
-    components: { test }
+    components: { index }
 })
 
 
