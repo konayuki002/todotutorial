@@ -26,5 +26,6 @@ defmodule TodoTutorialWeb.Router do
     pipe_through :api
 
     resources "/tasks", TaskController
+    resources "/users", UserController
   end
 end
