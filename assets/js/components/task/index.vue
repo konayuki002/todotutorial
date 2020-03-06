@@ -1,32 +1,17 @@
 <template>
-  <h1>Listing Tasks</h1>
-  <%= form_tag Routes.task_path(@conn, :index), method: :get do %>
-    <%= content_tag(:label, "Is finished", for: :is_finished) %>
-    <%= tag(:input, type: :checkbox, name: :is_finished, id: :is_finished, value: "true", checked: Map.has_key?(@conn.params, "is_finished")) %>
-    
-    <%= content_tag(:label, "Is expired", for: :is_expired) %>
-    <%= tag(:input, type: :checkbox, name: :is_expired, id: :is_expired, value: "true", checked: Map.has_key?(@conn.params, "is_expired")) %>
-    <div>
-    <%= content_tag(:label, "User", for: :user_id)%>
-    </div>
-    <%= content_tag :select, name: "user_id", id: :user_id do %>
-      <%= for user <- @users do %>
-        <%= content_tag(:option, user.name, value: user.id, selected: is_selected(@conn, user.id)) %>
-      <% end %>
-      <%= content_tag(:option, "指定しない", value: "nil", selected: is_selected(@conn, "nil")) %>
-    <% end %>
-    <div>
-    <%= tag(:input, type: :submit, value: "filter") %>
-    </div>
-  <% end %>
-
-  <%= render "list.html", tasks: @tasks, conn: @conn%>
-
-  <span><a href="???"></a></span>
+  <div>
+    <h1>Listing Tasks</h1>
+    ここに検索
+    <List></List>
+    <span><a href="???">New Task</a></span>
+  </div>
 </template>
 
 <script>
+import List from './list.vue'
 export default {
+  name: "task_index",
+  components: { List },
   data() {
     return {
 

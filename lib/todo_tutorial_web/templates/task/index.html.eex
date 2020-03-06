@@ -22,3 +22,7 @@
 <%= render "list.html", tasks: @tasks, conn: @conn%>
 
 <span><%= link "New Task", to: Routes.task_path(@conn, :new) %></span>
+
+以下vue
+
+<task_index></task_index>
