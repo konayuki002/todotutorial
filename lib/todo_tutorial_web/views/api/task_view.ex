@@ -16,7 +16,8 @@ defmodule TodoTutorialWeb.Api.TaskView do
       name: task.name,
       is_finished: task.is_finished,
       finished_at: task.finished_at,
-      deadline: task.deadline
+      deadline: task.deadline,
+      user_name: task.user.name
     }
   end
 end

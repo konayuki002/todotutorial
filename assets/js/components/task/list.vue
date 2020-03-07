@@ -18,11 +18,12 @@
           <td>{{task.is_finished}}</td>
           <td>{{task.finished_at}}</td>
           <td>{{task.deadline}}</td>
+          <td>{{task.user_name}}</td>
           <td></td>
           <td>
-          <span><a href="">Show</a></span>
-          <span><a href="">Edit</a></span>
-          <span><a href="">Delete</a></span>
+          <span><a :href="task.show">Show</a></span>
+          <span><a :href="task.edit">Edit</a></span>
+          <span><a :href="task.delete" :data-to="task.delete" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Delete</a></span>
           </td>
         </tr>
       </tbody>
@@ -33,7 +34,6 @@
 
 <script>
 import axios from 'axios'
-import Vue from 'vue'
 export default {
   data () {
     return {
@@ -41,10 +41,20 @@ export default {
     }
   },
   mounted () {
-    axios.get('./api/tasks')
-    .then(response => (this.tasks = response.data.data, console.log(response.data.data)))
+    axios.get('/api/tasks')
+    .then(response => {
+      response.data.data.map(
+        task => (
+          task.show = '/tasks/' + task.id,
+          task.edit = '/tasks/' + task.id + '/edit',
+          task.delete = '/api/tasks/' + task.id
+        )
+      );
+      this.tasks = response.data.data;
+      console.log(response);
+      })
     .catch(error => (console.log(error)))
-  }
+  },
 }
 </script>
 
