@@ -17,7 +17,7 @@
         </div>
       </form>
     <List></List>
-    <span><a href="???">New Task</a></span>
+    <span><a href="/tasks/new">New Task</a></span>
   </div>
 </template>
 

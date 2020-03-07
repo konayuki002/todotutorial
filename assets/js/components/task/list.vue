@@ -35,6 +35,7 @@
 <script>
 import axios from 'axios'
 export default {
+  props: ['is_finished', 'is_expired', 'user_id'],
   data () {
     return {
       tasks: []
