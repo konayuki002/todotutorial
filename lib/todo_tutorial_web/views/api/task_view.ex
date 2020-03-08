@@ -6,6 +6,10 @@ defmodule TodoTutorialWeb.Api.TaskView do
     %{data: render_many(tasks, TaskView, "task.json")}
   end
 
+  def render("urgent.json", %{urgent_tasks: urgent_tasks, expired_tasks: expired_tasks}) do
+    %{data: %{urgent_tasks: render_many(urgent_tasks, TaskView, "task.json"), expired_tasks: render_many(expired_tasks, TaskView, "task.json")}}
+  end
+
   def render("show.json", %{task: task}) do
     %{data: render_one(task, TaskView, "task.json")}
   end
@@ -20,4 +24,5 @@ defmodule TodoTutorialWeb.Api.TaskView do
       user_name: task.user.name
     }
   end
+
 end

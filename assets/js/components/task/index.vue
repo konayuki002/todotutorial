@@ -61,6 +61,7 @@ export default {
     axios.get('/api/users')
     .then(response => {
       this.users = response.data.data;
+      console.log(this.users)
       })
     .catch(error => (console.log(error)))
     this.get_tasks()

@@ -11,6 +11,12 @@ defmodule TodoTutorialWeb.Api.TaskController do
     render(conn, "index.json", tasks: tasks)
   end
 
+  def fetch_urgent(conn, _params) do
+    urgent_tasks = Todo.fetch_urgent_tasks()
+    expired_tasks = Todo.fetch_expired_tasks()
+    render(conn, "urgent.json", urgent_tasks: urgent_tasks, expired_tasks: expired_tasks)
+  end
+
   def create(conn, %{"task" => task_params}) do
     with {:ok, %Task{} = task} <- Todo.create_task(task_params) do
       conn

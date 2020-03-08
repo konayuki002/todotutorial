@@ -27,5 +27,6 @@ defmodule TodoTutorialWeb.Router do
 
     resources "/tasks", TaskController
     resources "/users", UserController
+    get "/urgent", TaskController, :fetch_urgent
   end
 end

@@ -14,17 +14,17 @@ import "phoenix_html"
 import Vue from 'vue'
 import index from './components/page/index.vue'
 import task_index from './components/task/index.vue'
-import axios from 'axios'
+import urgent from './components/task/urgent.vue'
 
 new Vue({
-    el: '#vue',
-    components: { index }
+  el: '#vue',
+  components: {
+    'index': index,
+    'task_index': task_index,
+    'urgent': urgent
+  }
 })
 
-var vm = new Vue({
-  el: '#vue',
-  components: { task_index }
-})
 
 // Import local files
 //
