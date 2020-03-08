@@ -31,30 +31,9 @@
   </div>
 </template>
 
-
 <script>
-import axios from 'axios'
 export default {
-  props: ['is_finished', 'is_expired', 'user_id'],
-  data () {
-    return {
-      tasks: []
-    }
-  },
-  mounted () {
-    axios.get('/api/tasks')
-    .then(response => {
-      response.data.data.map(
-        task => (
-          task.show = '/tasks/' + task.id,
-          task.edit = '/tasks/' + task.id + '/edit',
-          task.delete = '/api/tasks/' + task.id
-        )
-      );
-      this.tasks = response.data.data;
-      })
-    .catch(error => (console.log(error)))
-  },
+  props: ['tasks']
 }
 </script>
 
