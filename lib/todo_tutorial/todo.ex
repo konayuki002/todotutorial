@@ -10,14 +10,8 @@ defmodule TodoTutorial.Todo do
 
   @doc """
   Returns the filtered list of tasks.
-
-  ## Examples
-
-      iex> list_tasks(%{is_finished: "true"})
-      [%Task{}, ...]
-
   """
-  @spec list_tasks(%{}) :: %{}
+  @spec list_tasks(%{}) :: []
   def list_tasks(params) do
     params = format_params(params)
 
@@ -80,13 +74,7 @@ defmodule TodoTutorial.Todo do
   end
 
   @doc """
-  Returns the list of tasks unfinished, not expired and ordered from near to distant.
-
-  ## Examples
-
-      iex> fetch_urgent_tasks()
-      [%Task{}, ...]
-
+  Returns the list of tasks not finished, not expired and ordered from near to distant.
   """
   @spec fetch_urgent_tasks() :: %{}
   def fetch_urgent_tasks do
@@ -96,13 +84,7 @@ defmodule TodoTutorial.Todo do
   end
 
   @doc """
-  Returns the list of tasks unfinished, expired and ordered from near to distant.
-
-  ## Examples
-
-      iex> fetch_expired_tasks()
-      [%Task{}, ...]
-
+  Returns the list of tasks not finished, expired and ordered from near to distant.
   """
   @spec fetch_expired_tasks() :: %{}
   def fetch_expired_tasks do
@@ -115,15 +97,6 @@ defmodule TodoTutorial.Todo do
   Gets a single task.
 
   Raises `Ecto.NoResultsError` if the Task does not exist.
-
-  ## Examples
-
-      iex> get_task!(123)
-      %Task{}
-
-      iex> get_task!(456)
-      ** (Ecto.NoResultsError)
-
   """
   def get_task!(id),
     do:
@@ -133,15 +106,6 @@ defmodule TodoTutorial.Todo do
 
   @doc """
   Creates a task.
-
-  ## Examples
-
-      iex> create_task(%{field: value})
-      {:ok, %Task{}}
-
-      iex> create_task(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
   """
   def create_task(attrs \\ %{}) do
     %Task{}
@@ -151,15 +115,6 @@ defmodule TodoTutorial.Todo do
 
   @doc """
   Updates a task.
-
-  ## Examples
-
-      iex> update_task(task, %{field: new_value})
-      {:ok, %Task{}}
-
-      iex> update_task(task, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
   """
   def update_task(%Task{} = task, attrs) do
     task
@@ -169,15 +124,6 @@ defmodule TodoTutorial.Todo do
 
   @doc """
   Deletes a Task.
-
-  ## Examples
-
-      iex> delete_task(task)
-      {:ok, %Task{}}
-
-      iex> delete_task(task)
-      {:error, %Ecto.Changeset{}}
-
   """
   def delete_task(%Task{} = task) do
     Repo.delete(task)
@@ -185,12 +131,6 @@ defmodule TodoTutorial.Todo do
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking task changes.
-
-  ## Examples
-
-      iex> change_task(task)
-      %Ecto.Changeset{source: %Task{}}
-
   """
   def change_task(%Task{} = task) do
     Task.changeset(task, %{})

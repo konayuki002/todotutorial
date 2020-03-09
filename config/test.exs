@@ -4,7 +4,7 @@ use Mix.Config
 config :todo_tutorial, TodoTutorial.Repo,
   username: "default",
   password: "secret",
-  database: "default",
+  database: "test",
   hostname: "postgres",
   pool: Ecto.Adapters.SQL.Sandbox
 
