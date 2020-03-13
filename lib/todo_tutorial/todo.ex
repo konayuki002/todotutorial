@@ -11,7 +11,7 @@ defmodule TodoTutorial.Todo do
   @doc """
   Returns the filtered list of tasks.
   """
-  @spec list_tasks(%{}) :: []
+  @spec list_tasks(%{}) :: list(Task.t())
   def list_tasks(params) do
     params = format_params(params)
 
@@ -76,7 +76,7 @@ defmodule TodoTutorial.Todo do
   @doc """
   Returns the list of tasks not finished, not expired and ordered from near to distant.
   """
-  @spec fetch_urgent_tasks() :: %{}
+  @spec fetch_urgent_tasks() :: list(Task.t())
   def fetch_urgent_tasks do
     Task
     |> where([t], not t.is_finished and t.deadline > from_now(0, "second"))
@@ -86,7 +86,7 @@ defmodule TodoTutorial.Todo do
   @doc """
   Returns the list of tasks not finished, expired and ordered from near to distant.
   """
-  @spec fetch_expired_tasks() :: %{}
+  @spec fetch_expired_tasks() :: list(Task.t())
   def fetch_expired_tasks do
     Task
     |> where([t], not t.is_finished and t.deadline < from_now(0, "second"))

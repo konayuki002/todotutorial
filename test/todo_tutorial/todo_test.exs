@@ -7,23 +7,47 @@ defmodule TodoTutorial.TodoTest do
   describe "tasks" do
     alias TodoTutorial.Todo.Task
 
-    @user_attrs%{name: "some_user_name", id: 0}
+    @user_attrs %{name: "some_user_name", id: 0}
 
-    @valid_attrs %{finished_at: ~N[2010-04-17 14:00:00], is_finished: false, name: "some name", user_id: 0, deadline: ~N[2020-03-09 13:52:27]}
-    @update_attrs %{finished_at: ~N[2011-05-18 15:01:01], is_finished: false, name: "some updated name", user_id: 0, deadline: ~N[2020-03-09 13:52:27]}
-    @urgent_attrs %{finished_at: nil, is_finished: false, name: "some urgent name", user_id: 0, deadline: ~N[2345-03-09 13:52:27]}
-    @expired_attrs %{finished_at: nil, is_finished: false, name: "some expired name", user_id: 0, deadline: ~N[1999-01-01 13:52:27]}
+    @valid_attrs %{
+      finished_at: ~N[2010-04-17 14:00:00],
+      is_finished: false,
+      name: "some name",
+      user_id: 0,
+      deadline: ~N[2020-03-09 13:52:27]
+    }
+    @update_attrs %{
+      finished_at: ~N[2011-05-18 15:01:01],
+      is_finished: false,
+      name: "some updated name",
+      user_id: 0,
+      deadline: ~N[2020-03-09 13:52:27]
+    }
+    @urgent_attrs %{
+      finished_at: nil,
+      is_finished: false,
+      name: "some urgent name",
+      user_id: 0,
+      deadline: ~N[2345-03-09 13:52:27]
+    }
+    @expired_attrs %{
+      finished_at: nil,
+      is_finished: false,
+      name: "some expired name",
+      user_id: 0,
+      deadline: ~N[1999-01-01 13:52:27]
+    }
     @invalid_attrs %{finished_at: nil, is_finished: nil, name: nil, user_name: nil}
 
     def user_fixture(attrs \\ %{}) do
-      {:ok, user} = 
+      {:ok, user} =
         attrs
         |> Enum.into(@user_attrs)
         |> TodoTutorial.Accounts.create_user()
-      
+
       user
     end
-    
+
     def task_fixture(attrs \\ %{}) do
       {:ok, task} =
         attrs
