@@ -30,8 +30,12 @@ defmodule TodoTutorialWeb.UserControllerTest do
     test "redirects to show when data is valid", %{conn: conn} do
       conn = post(conn, Routes.user_path(conn, :create), user: @create_attrs)
 
-      assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == Routes.user_path(conn, :show, id)
+      assert redirected_to(conn) == Routes.user_path(conn, :index)
+
+      id =
+        Enum.find_value(TodoTutorial.Accounts.list_users(), fn user ->
+          if user.name == "some name", do: user.id
+        end)
 
       conn = get(conn, Routes.user_path(conn, :show, id))
       assert html_response(conn, 200) =~ "Show User"
@@ -57,7 +61,7 @@ defmodule TodoTutorialWeb.UserControllerTest do
 
     test "redirects when data is valid", %{conn: conn, user: user} do
       conn = put(conn, Routes.user_path(conn, :update, user), user: @update_attrs)
-      assert redirected_to(conn) == Routes.user_path(conn, :show, user)
+      assert redirected_to(conn) == Routes.user_path(conn, :index)
 
       conn = get(conn, Routes.user_path(conn, :show, user))
       assert html_response(conn, 200) =~ "some updated name"

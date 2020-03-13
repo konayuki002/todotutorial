@@ -3,16 +3,26 @@ defmodule TodoTutorialWeb.TaskControllerTest do
 
   alias TodoTutorial.Todo
 
-  @create_attrs %{finished_at: ~N[2010-04-17 14:00:00], is_finished: true, name: "some name"}
+  @user_attrs %{name: "some user name"}
+
+  @create_attrs %{
+    finished_at: ~N[2010-04-17 14:00:00],
+    is_finished: true,
+    name: "some name",
+    deadline: ~N[2022-01-01 15:20:20]
+  }
   @update_attrs %{
     finished_at: ~N[2011-05-18 15:01:01],
     is_finished: false,
-    name: "some updated name"
+    name: "some updated name",
+    deadline: ~N[2022-01-01 15:20:20]
   }
   @invalid_attrs %{finished_at: nil, is_finished: nil, name: nil}
 
   def fixture(:task) do
-    {:ok, task} = Todo.create_task(@create_attrs)
+    {:ok, user} = TodoTutorial.Accounts.create_user(@user_attrs)
+    attrs = Map.put(@create_attrs, :user_id, user.id)
+    {:ok, task} = Todo.create_task(attrs)
     task
   end
 
@@ -32,10 +42,16 @@ defmodule TodoTutorialWeb.TaskControllerTest do
 
   describe "create task" do
     test "redirects to show when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.task_path(conn, :create), task: @create_attrs)
+      {:ok, user} = TodoTutorial.Accounts.create_user(@user_attrs)
+      attrs = Map.put(@create_attrs, :user_id, user.id)
+      conn = post(conn, Routes.task_path(conn, :create), task: attrs)
 
-      assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == Routes.task_path(conn, :show, id)
+      assert redirected_to(conn) == Routes.task_path(conn, :index)
+
+      id =
+        Enum.find_value(Todo.list_tasks(%{}), fn task ->
+          if task.name == "some name", do: task.id
+        end)
 
       conn = get(conn, Routes.task_path(conn, :show, id))
       assert html_response(conn, 200) =~ "Show Task"
@@ -61,7 +77,7 @@ defmodule TodoTutorialWeb.TaskControllerTest do
 
     test "redirects when data is valid", %{conn: conn, task: task} do
       conn = put(conn, Routes.task_path(conn, :update, task), task: @update_attrs)
-      assert redirected_to(conn) == Routes.task_path(conn, :show, task)
+      assert redirected_to(conn) == Routes.task_path(conn, :index)
 
       conn = get(conn, Routes.task_path(conn, :show, task))
       assert html_response(conn, 200) =~ "some updated name"
