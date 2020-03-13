@@ -11,12 +11,6 @@ defmodule TodoTutorial.Accounts do
 
   @doc """
   Returns the list of users.
-
-  ## Examples
-
-      iex> list_users()
-      [%User{}, ...]
-
   """
   def list_users do
     make_user_task_count_query()
@@ -27,15 +21,6 @@ defmodule TodoTutorial.Accounts do
   Gets a single user.
 
   Raises `Ecto.NoResultsError` if the User does not exist.
-
-  ## Examples
-
-      iex> get_user!(123)
-      %User{}
-
-      iex> get_user!(456)
-      ** (Ecto.NoResultsError)
-
   """
   def get_user!(id) do
     make_user_task_count_query()
@@ -60,7 +45,9 @@ defmodule TodoTutorial.Accounts do
       id: u.id,
       name: u.name,
       remaining: fragment("CASE WHEN ? is NULL THEN 0 ELSE ? END", t.count, t.count),
-      finished: fragment("CASE WHEN ? is NULL THEN 0 ELSE ? END", t2.count, t2.count)
+      finished: fragment("CASE WHEN ? is NULL THEN 0 ELSE ? END", t2.count, t2.count),
+      inserted_at: u.inserted_at,
+      updated_at: u.updated_at
     })
   end
 
@@ -72,15 +59,6 @@ defmodule TodoTutorial.Accounts do
 
   @doc """
   Creates a user.
-
-  ## Examples
-
-      iex> create_user(%{field: value})
-      {:ok, %User{}}
-
-      iex> create_user(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
   """
   def create_user(attrs \\ %{}) do
     %User{}
@@ -90,15 +68,6 @@ defmodule TodoTutorial.Accounts do
 
   @doc """
   Updates a user.
-
-  ## Examples
-
-      iex> update_user(user, %{field: new_value})
-      {:ok, %User{}}
-
-      iex> update_user(user, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
   """
   def update_user(%User{} = user, attrs) do
     user
@@ -108,15 +77,6 @@ defmodule TodoTutorial.Accounts do
 
   @doc """
   Deletes a User.
-
-  ## Examples
-
-      iex> delete_user(user)
-      {:ok, %User{}}
-
-      iex> delete_user(user)
-      {:error, %Ecto.Changeset{}}
-
   """
   def delete_user(%User{} = user) do
     Repo.delete(user)
@@ -124,12 +84,6 @@ defmodule TodoTutorial.Accounts do
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking user changes.
-
-  ## Examples
-
-      iex> change_user(user)
-      %Ecto.Changeset{source: %User{}}
-
   """
   def change_user(%User{} = user) do
     User.changeset(user, %{})

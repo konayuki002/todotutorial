@@ -2,6 +2,7 @@ defmodule TodoTutorial.AccountsTest do
   use TodoTutorial.DataCase
 
   alias TodoTutorial.Accounts
+  doctest Accounts
 
   describe "users" do
     alias TodoTutorial.Accounts.User
@@ -21,7 +22,9 @@ defmodule TodoTutorial.AccountsTest do
 
     test "list_users/0 returns all users" do
       user = user_fixture()
-      assert Accounts.list_users() == [user]
+      listed = Accounts.list_users()
+      listed |> Enum.map(fn u -> Map.put(u, "inserted_at", nil) end)
+      assert listed == [user]
     end
 
     test "get_user!/1 returns the user with given id" do
