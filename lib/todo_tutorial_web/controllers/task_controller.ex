@@ -33,7 +33,8 @@ defmodule TodoTutorialWeb.TaskController do
         |> redirect(to: Routes.task_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        users = Repo.all(TodoTutorial.Accounts.User)
+        render(conn, "new.html", changeset: changeset, users: users)
     end
   end
 
@@ -59,7 +60,8 @@ defmodule TodoTutorialWeb.TaskController do
         |> redirect(to: Routes.task_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", task: task, changeset: changeset)
+        users = Repo.all(TodoTutorial.Accounts.User)
+        render(conn, "edit.html", task: task, changeset: changeset, users: users)
     end
   end
 
