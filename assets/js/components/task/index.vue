@@ -36,34 +36,21 @@ export default {
     }
   },
   methods: {
-    get_tasks: function() {
-      axios.get('/api/tasks',{
+    get_tasks: async function() {
+      const response = await axios.get('/api/tasks',{
         params: {
           is_finished: this.is_finished,
           is_expired: this.is_expired,
           user_id: this.user_id
         }
       })
-      .then(response => {
-        response.data.data.map(
-          task => (
-            task.show = '/tasks/' + task.id,
-            task.edit = '/tasks/' + task.id + '/edit',
-            task.delete = '/api/tasks/' + task.id
-          )
-        );
-        this.tasks = response.data.data;
-      })
       .catch(error => (console.log(error)))
+      this.tasks = response.data.data
     }
   },
-  mounted () {
-    axios.get('/api/users')
-    .then(response => {
-      this.users = response.data.data;
-      console.log(this.users)
-      })
-    .catch(error => (console.log(error)))
+  async mounted () {
+    const response = await axios.get('/api/users').catch(error => (console.log(error)))
+    this.users = response.data.data
     this.get_tasks()
   }
 }

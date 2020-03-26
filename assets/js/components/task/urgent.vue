@@ -21,27 +21,10 @@ export default {
     }
   },
   methods: {
-    get_tasks: function() {
-      axios.get('/api/urgent')
-      .then(response => {
-        response.data.data.urgent_tasks.map(
-          task => (
-            task.show = '/tasks/' + task.id,
-            task.edit = '/tasks/' + task.id + '/edit',
-            task.delete = '/api/tasks/' + task.id
-          )
-        )
-        this.urgent_tasks = response.data.data.urgent_tasks
-        response.data.data.expired_tasks.map(
-            task => (
-                task.show = '/tasks/' + task.id,
-                task.edit = '/tasks/' + task.id + '/edit',
-                task.delete = '/api/tasks/' + task.id
-            )
-        )
-        this.expired_tasks = response.data.data.expired_tasks
-      })
-      .catch(error => (console.log(error)))
+    get_tasks: async function() {
+      const response = await axios.get('/api/urgent').catch(error => console.log(error))
+      this.urgent_tasks = response.data.data.urgent_tasks
+      this.expired_tasks = response.data.data.expired_tasks
     }
   },
   mounted () {

@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="task in tasks">
+        <tr v-for="(task, index) in tasks">
           <td>{{task.name}}</td>
           <td>{{task.is_finished}}</td>
           <td>{{task.finished_at}}</td>
@@ -20,9 +20,9 @@
           <td>{{task.user_name}}</td>
           <td></td>
           <td>
-          <span><a :href="task.show">Show</a></span>
-          <span><a :href="task.edit">Edit</a></span>
-          <span><a :href="task.delete" :data-to="task.delete" data-confirm="Are you sure?" data-method="delete" rel="nofollow">Delete</a></span>
+          <span><a :href="'/tasks/' + task.id">Show</a></span>
+          <span><a :href="'/tasks/' + task.id + '/edit'">Edit</a></span>
+          <span><a @click="delete_task(task.id, index)">Delete</a></span>
           </td>
         </tr>
       </tbody>
@@ -31,8 +31,19 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-  props: ['tasks']
+  props: ['tasks'],
+  methods: {
+    delete_task: async function(id, index) {
+      if(confirm("Are you sure?")){
+        const response = await axios.delete('/api/tasks/' + id).catch(error => (console.log(error)))
+        if(response.status == 204){
+          this.tasks.splice(index, 1)
+        }
+      }
+    }
+  }
 }
 </script>
 
