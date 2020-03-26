@@ -12,11 +12,18 @@ defmodule TodoTutorialWeb.Api.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    with {:ok, %User{} = user} <- Accounts.create_user(user_params) do
-      conn
-      |> put_status(:created)
-      |> put_resp_header("location", Routes.api_user_path(conn, :show, user))
-      |> render("show.json", user: user)
+    case Accounts.create_user(user_params) do
+      {:ok, %User{} = user} ->
+        conn
+        |> put_status(:created)
+        |> put_resp_header("location", Routes.api_user_path(conn, :show, user))
+        |> render("show.json", user: user)
+
+      {:error, _} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> put_view(TodoTutorialWeb.Api.ErrorView)
+        |> render("422.json", %{message: "some params can't be blank"})
     end
   end
 
@@ -28,8 +35,15 @@ defmodule TodoTutorialWeb.Api.UserController do
   def update(conn, %{"id" => id, "user" => user_params}) do
     user = Accounts.get_user!(id)
 
-    with {:ok, %User{} = user} <- Accounts.update_user(user, user_params) do
-      render(conn, "show.json", user: user)
+    case Accounts.update_user(user, user_params) do
+      {:ok, %User{} = user} ->
+        render(conn, "show.json", user: user)
+
+      {:error, _} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> put_view(TodoTutorialWeb.Api.ErrorView)
+        |> render("422.json", %{message: "some params can't be blank"})
     end
   end
 

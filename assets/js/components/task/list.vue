@@ -17,7 +17,7 @@
           <td>{{task.is_finished}}</td>
           <td>{{task.finished_at}}</td>
           <td>{{task.deadline}}</td>
-          <td>{{task.user_name}}</td>
+          <td>{{task.user.name}}</td>
           <td></td>
           <td>
           <span><a :href="'/tasks/' + task.id">Show</a></span>

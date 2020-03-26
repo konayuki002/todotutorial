@@ -18,11 +18,18 @@ defmodule TodoTutorialWeb.Api.TaskController do
   end
 
   def create(conn, %{"task" => task_params}) do
-    with {:ok, %Task{} = task} <- Todo.create_task(task_params) do
-      conn
-      |> put_status(:created)
-      |> put_resp_header("location", Routes.api_task_path(conn, :show, task))
-      |> render("show.json", task: task)
+    case Todo.create_task(task_params) do
+      {:ok, %Task{} = task} ->
+        conn
+        |> put_status(:created)
+        |> put_resp_header("location", Routes.api_task_path(conn, :show, task))
+        |> render("show.json", task: task)
+
+      {:error, _} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> put_view(TodoTutorialWeb.Api.ErrorView)
+        |> render("422.json", %{message: "some params can't be blank"})
     end
   end
 
@@ -34,8 +41,15 @@ defmodule TodoTutorialWeb.Api.TaskController do
   def update(conn, %{"id" => id, "task" => task_params}) do
     task = Todo.get_task!(id)
 
-    with {:ok, %Task{} = task} <- Todo.update_task(task, task_params) do
-      render(conn, "show.json", task: task)
+    case Todo.update_task(task, task_params) do
+      {:ok, %Task{} = task} ->
+        render(conn, "show.json", task: task)
+
+      {:error, _} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> put_view(TodoTutorialWeb.Api.ErrorView)
+        |> render("422.json", %{message: "some params can't be blank"})
     end
   end
 

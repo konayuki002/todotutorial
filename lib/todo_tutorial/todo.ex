@@ -108,9 +108,18 @@ defmodule TodoTutorial.Todo do
   Creates a task.
   """
   def create_task(attrs \\ %{}) do
-    %Task{}
-    |> Task.changeset(attrs)
-    |> Repo.insert()
+    repo =
+      %Task{}
+      |> Task.changeset(attrs)
+      |> Repo.insert()
+
+    case repo do
+      {:ok, task} ->
+        {:ok, get_task!(task.id)}
+
+      {:error, _} ->
+        repo
+    end
   end
 
   @doc """

@@ -1,19 +1,19 @@
 defmodule TodoTutorialWeb.Api.UserControllerTest do
   use TodoTutorialWeb.ConnCase
 
-  alias TodoTutorial.Account
-  alias TodoTutorial.Account.User
+  alias TodoTutorial.Accounts
+  alias TodoTutorial.Accounts.User
 
   @create_attrs %{
-
+    name: "some name"
   }
   @update_attrs %{
-
+    name: "some update name"
   }
-  @invalid_attrs %{}
+  @invalid_attrs %{name: nil}
 
   def fixture(:user) do
-    {:ok, user} = Account.create_user(@create_attrs)
+    {:ok, user} = Accounts.create_user(@create_attrs)
     user
   end
 

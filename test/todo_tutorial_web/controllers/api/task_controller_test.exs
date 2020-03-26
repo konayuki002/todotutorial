@@ -4,16 +4,23 @@ defmodule TodoTutorialWeb.Api.TaskControllerTest do
   alias TodoTutorial.Todo
   alias TodoTutorial.Todo.Task
 
+  @user_attrs %{
+    name: "some user name"
+  }
   @create_attrs %{
-
+    name: "some name",
+    deadline: ~N[2020-12-12 10:43:12]
   }
   @update_attrs %{
-
+    name: "some update name",
+    deadline: ~N[2020-12-24 10:43:12]
   }
-  @invalid_attrs %{}
+  @invalid_attrs %{name: nil}
 
   def fixture(:task) do
-    {:ok, task} = Todo.create_task(@create_attrs)
+    {:ok, user} = TodoTutorial.Accounts.create_user(@user_attrs)
+    attrs = Map.put(@create_attrs, :user_id, user.id)
+    {:ok, task} = Todo.create_task(attrs)
     task
   end
 
@@ -30,7 +37,9 @@ defmodule TodoTutorialWeb.Api.TaskControllerTest do
 
   describe "create task" do
     test "renders task when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.api_task_path(conn, :create), task: @create_attrs)
+      {:ok, user} = TodoTutorial.Accounts.create_user(@user_attrs)
+      attrs = Map.put(@create_attrs, :user_id, user.id)
+      conn = post(conn, Routes.api_task_path(conn, :create), task: attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get(conn, Routes.api_task_path(conn, :show, id))
