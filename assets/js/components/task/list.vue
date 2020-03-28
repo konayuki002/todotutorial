@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(task, index) in tasks">
+        <tr v-for="(task, index) in tasks" v-bind:key="task.id">
           <td>{{task.name}}</td>
           <td>{{task.is_finished}}</td>
           <td>{{task.finished_at}}</td>
