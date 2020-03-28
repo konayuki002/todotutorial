@@ -13,7 +13,7 @@
         <option value="nil" selected>指定しない</option>
       </select>
       <div>
-        <button v-on:click="get_tasks">filter</button>
+        <button v-on:click="fetch_tasks">filter</button>
       </div>
     <List v-bind:tasks="tasks"></List>
     <span><a href="/tasks/new">New Task</a></span>
@@ -36,7 +36,7 @@ export default {
     }
   },
   methods: {
-    get_tasks: async function() {
+    fetch_tasks: async function() {
       const response = await axios.get('/api/tasks',{
         params: {
           is_finished: this.is_finished,
@@ -51,7 +51,7 @@ export default {
   async mounted () {
     const response = await axios.get('/api/users').catch(error => (console.log(error)))
     this.users = response.data.data
-    this.get_tasks()
+    this.fetch_tasks()
   }
 }
 </script>
