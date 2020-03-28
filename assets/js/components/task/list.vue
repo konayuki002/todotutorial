@@ -20,8 +20,8 @@
           <td>{{task.user.name}}</td>
           <td></td>
           <td>
-          <span><a :href="'/tasks/' + task.id">Show</a></span>
-          <span><a :href="'/tasks/' + task.id + '/edit'">Edit</a></span>
+          <span><a :href="`/tasks/${task.id}`">Show</a></span>
+          <span><a :href="`/tasks/${task.id}/edit`">Edit</a></span>
           <span><a @click="delete_task(task.id, index)">Delete</a></span>
           </td>
         </tr>
@@ -37,7 +37,7 @@ export default {
   methods: {
     delete_task: async function(id, index) {
       if(confirm("Are you sure?")){
-        const response = await axios.delete('/api/tasks/' + id).catch(error => (console.log(error)))
+        const response = await axios.delete(`/api/tasks/${id}`).catch(error => (console.log(error)))
         if(response.status == 204){
           this.tasks.splice(index, 1)
         }
