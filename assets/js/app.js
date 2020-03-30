@@ -12,11 +12,17 @@ import css from "../css/app.css"
 import "phoenix_html"
 
 import Vue from 'vue'
-import test from './components/test.vue'
+import index from './components/page/index.vue'
+import task_index from './components/task/index.vue'
+import urgent from './components/task/urgent.vue'
 
 new Vue({
-    el: '#vue',
-    components: { test }
+  el: '#vue',
+  components: {
+    'index': index,
+    'task_index': task_index,
+    'urgent': urgent
+  }
 })
 
 

@@ -22,8 +22,11 @@ defmodule TodoTutorialWeb.Router do
     get "/urgent", TaskController, :fetch_urgent
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", TodoTutorialWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", TodoTutorialWeb.Api, as: :api do
+    pipe_through :api
+
+    resources "/tasks", TaskController
+    resources "/users", UserController
+    get "/urgent", TaskController, :fetch_urgent
+  end
 end
